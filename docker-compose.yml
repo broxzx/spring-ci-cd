@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  spring-ci-cd:
+    container_name: spring-ci-cd
+    build:
+      context: ./
+    ports:
+      - "8080:8080"

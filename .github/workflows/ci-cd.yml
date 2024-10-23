@@ -19,7 +19,7 @@ jobs:
         run: ./mvnw clean install -DskipTests
 
       - name: Run tests
-        run: mvn test
+        run: ./mvnw test
 
       - name: Archive results
         uses: actions/upload-artifact@v3
@@ -29,6 +29,7 @@ jobs:
 
   deploy:
     runs-on: self-hosted
+    needs: build
     steps:
       - name: Stop existing containers
         run: |

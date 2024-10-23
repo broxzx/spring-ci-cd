@@ -1,0 +1,36 @@
+name: Spring Boot CI/CD github
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Check whether it works
+        run: |
+          cd /home/fyuizee
+          mkdir helloWorld
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose -y
+
+      - name: Stop existing containers
+        run: |
+          docker-compose down
+
+      - name: Build and run Docker Compose
+        run: |
+          docker-compose pull
+          docker-compose up -d --build

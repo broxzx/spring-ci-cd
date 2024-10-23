@@ -12,11 +12,6 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: Check whether it works
-        run: |
-          cd /home/fyuizee
-          mkdir helloWorld
-
       - name: Checkout code
         uses: actions/checkout@v3
 

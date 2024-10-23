@@ -15,9 +15,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-#      - name: Stop existing containers
-#        run: |
-#          docker-compose down
+      - name: Build with Maven
+        run: ./mvnw clean install
+
+      - name: Stop existing containers
+        run: |
+          docker-compose down
 
       - name: Build and run Docker Compose
         run: |

@@ -1,15 +1,18 @@
-FROM amazoncorretto:17.0.7-alpine
+FROM eclipse-temurin:17-jre-alpine
+LABEL maintainer="fyuizee@gmail.com"
 
-ARG APPLICATION_USER=appuser
-RUN adduser --no-create-home -u 1000 -D $APPLICATION_USER
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-RUN mkdir /app && \
-    chown -R $APPLICATION_USER /app
-
-USER 1000
-
-COPY --chown=1000:1000 ./target/spring-ci-cd.jar /app/spring-ci-cd.jar
 WORKDIR /app
 
+COPY target/spring-ci-cd.jar /app/spring-ci-cd.jar
+
+RUN chown -R appuser:appgroup /app
+RUN chmod +x /app/spring-ci-cd.jar
+
+USER appuser
+
 EXPOSE 8080
-ENTRYPOINT [ "java", "-jar", "/app/spring-ci-cd.jar" ]
+
+ENTRYPOINT ["java", "-jar", "/app/spring-ci-cd.jar"]
+CMD ["-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-XX:+ExitOnOutOfMemoryError"]
